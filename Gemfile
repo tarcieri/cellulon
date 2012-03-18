@@ -1,6 +1,4 @@
-source 'https://rubygems.org'
-
-gem 'celluloid', :git => 'https://github.com/tarcieri/celluloid.git'
+source :rubygems
 
 # Specify your gem's dependencies in cellulon.gemspec
 gemspec
