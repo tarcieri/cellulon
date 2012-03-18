@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+require 'uri'
+require 'net/http'
+require 'cgi'
+require 'json'
+
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+
+usage "Google-powered calculator"
+
+query = CGI.escape(input)
+body  = Net::HTTP.get URI("http://www.google.com/ig/calculator?hl=en&q=#{query}")
+
+response = {}
+body.scan(/(\w+): "((?:[^"]|\\")*)"/) do |attr|
+  response[attr.first] = attr.last
+end
+
+if response['error'] != ""
+  puts "That's whack, holmes"
+  exit
+end
+
+result = response['rhs'].gsub(/\\x([0-9a-fA-F]{2})/) { $1.hex.chr }
+result.gsub!(/&#([0-9]{1,7});/) { [$1.to_i].pack('U') }
+result.gsub!(/<sup>(-?\d+)<\/sup>/) { "^#{$1}" }
+
+puts "Result: #{CGI.unescape_html(result)}"
