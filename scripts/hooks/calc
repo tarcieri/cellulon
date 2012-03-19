@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 require 'uri'
 require 'net/http'
@@ -26,5 +27,6 @@ end
 result = response['rhs'].gsub(/\\x([0-9a-fA-F]{2})/) { $1.hex.chr }
 result.gsub!(/&#([0-9]{1,7});/) { [$1.to_i].pack('U') }
 result.gsub!(/<sup>(-?\d+)<\/sup>/) { "^#{$1}" }
+result.sub!("×","x") # Scumbag extemperaneous unicode!
 
 puts "Result: #{CGI.unescape_html(result)}"
