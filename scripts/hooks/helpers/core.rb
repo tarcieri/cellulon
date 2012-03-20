@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Helpers
   HOOK_PATTERN = /^[a-z][a-z0-9\-]*[a-z0-9]*$/
   
@@ -12,7 +14,8 @@ module Helpers
     
     # Obtain all arguments as a single string
     def input
-      @input ||= ARGV[0..-1].join(' ') if ARGV[0]
+      return nil unless ARGV[0]
+      @input ||= ARGV[0..-1].join(' ')
     end
     
     # Who was this script called by?

@@ -24,7 +24,7 @@ if response['error'] != ""
   exit
 end
 
-result = response['rhs'].gsub(/\\x([0-9a-fA-F]{2})/) { $1.hex.chr }
+result = response['rhs'].gsub(/\\x([0-9a-fA-F]{2})/) { $1.hex.chr }.scan(/[[:print:]]*/).join
 result.gsub!(/&#([0-9]{1,7});/) { [$1.to_i].pack('U') }
 result.gsub!(/<sup>(-?\d+)<\/sup>/) { "^#{$1}" }
 result.sub!("×","x") # Scumbag extemperaneous unicode!
