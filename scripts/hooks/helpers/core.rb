@@ -1,4 +1,6 @@
 module Helpers
+  HOOK_PATTERN = /^[a-z][a-z0-9\-]*[a-z0-9]*$/
+  
   module Core
     # Usage info
     def usage(string)

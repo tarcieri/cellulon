@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+
+usage "The 'help' hook helps you find help about things: help <hookname>"
+
+hook = ARGV[0] && ARGV[0][Helpers::HOOK_PATTERN]
+if hook
+  script = File.expand_path("../#{ARGV[0]}", __FILE__)
+  
+  if File.executable?(script) and not File.directory?(script)
+    puts "#{ARGV[0]} usage: #{`#{script} help`}"
+  else
+    puts "No help available for: #{ARGV[0]}"
+  end
+  
+  exit 0
+end
+
+files = Dir[File.join File.expand_path('..', __FILE__), "*"]
+hooks = files.select do |file|
+  File.executable?(file) and not File.directory?(file)
+end
+
+hooks.map! do |hook|
+  hook[/[\w\-_]+$/]
+end.sort!
+
+puts "Available hooks: #{hooks.join(', ')}"

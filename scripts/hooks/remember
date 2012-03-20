@@ -4,20 +4,17 @@ $:.push File.dirname(__FILE__)
 require 'helpers/core'
 require 'helpers/db'
 
-USAGE = "Usage: Remember things: !remember <key>: <value>"
+USAGE = "!remember <key>: <value>"
 usage USAGE
 
-unless input
-  puts USAGE
+def halt
+  puts "Usage: #{USAGE}"
   exit 1
 end
 
+halt unless input
 key, value = input.split(/:\s*/)
-
-unless value
-  puts USAGE
-  exit 1
-end
+halt unless value
 
 key.strip!
 key.downcase!

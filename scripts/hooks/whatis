@@ -4,11 +4,11 @@ $:.push File.dirname(__FILE__)
 require 'helpers/core'
 require 'helpers/db'
 
-USAGE = "Usage: Look up something remembered with !remember"
+USAGE = "look up something remembered with !remember"
 usage USAGE
 
 unless input
-  puts USAGE
+  puts "Usage: #{USAGE}"
   exit 1
 end
 
