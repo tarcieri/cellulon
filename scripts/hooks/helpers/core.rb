@@ -10,7 +10,7 @@ module Helpers
     
     # Obtain all arguments as a single string
     def input
-      ARGV[0..-1].join(' ') if ARGV[0]
+      @input ||= ARGV[0..-1].join(' ') if ARGV[0]
     end
     
     # Who was this script called by?

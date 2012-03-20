@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+require 'helpers/db'
+
+USAGE = "Usage: Remember things: !remember <key>: <value>"
+usage USAGE
+
+unless input
+  puts USAGE
+  exit 1
+end
+
+key, value = input.split(/:\s*/)
+
+unless value
+  puts USAGE
+  exit 1
+end
+
+key.strip!
+key.downcase!
+value.strip!
+
+DB[:memory][key] = value
+puts "Okay, I remember \"#{key}\" is \"#{value}\""

@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+require 'helpers/db'
+
+USAGE = "Usage: Look up something remembered with !remember"
+usage USAGE
+
+unless input
+  puts USAGE
+  exit 1
+end
+
+query = input.strip
+value = DB[:memory][query.downcase]
+
+if value
+  puts "#{query.capitalize} is: #{value}"
+else
+  puts "I don't know what \"#{query}\" is"
+end
