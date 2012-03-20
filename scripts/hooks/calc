@@ -20,7 +20,7 @@ body.scan(/(\w+): "((?:[^"]|\\")*)"/) do |attr|
 end
 
 if response['error'] != ""
-  puts "That's whack, holmes"
+  puts "ERROR: Does not compute: #{response['error']}"
   exit
 end
 
