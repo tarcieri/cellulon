@@ -20,7 +20,7 @@ body.scan(/(\w+): "((?:[^"]|\\")*)"/) do |attr|
 end
 
 if response['error'] != ""
-  puts "ERROR: Does not compute (Code ##{response['error']})"
+  puts "ERROR: Does not compute (Code: #{response['error']})"
   exit
 end
 
