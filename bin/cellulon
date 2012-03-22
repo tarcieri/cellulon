@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'cellulon/cli'
+require 'cellulon'
+
+Cellulon.run
