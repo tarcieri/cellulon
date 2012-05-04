@@ -12,7 +12,7 @@ module Cellulon
     worker_pool = Cellulon::Worker.pool
 
     campfire = Tinder::Campfire.new 'hungrymachine', :token => ENV['CAMPFIRE_TOKEN']
-    room = campfire.find_room_by_name('Hackathon II')
+    room = campfire.find_room_by_name('Off Topic')
     room.listen do |event|
       type = event['type'].scan(/[A-Z][a-z0-9]+/).map(&:downcase).join('_').to_sym
       nick = event['user'] ? event['user']['name'].force_encoding('UTF-8') : nil
