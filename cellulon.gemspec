@@ -14,7 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "cellulon"
   gem.require_paths = ["lib"]
   gem.version       = Cellulon::VERSION
-  
-  gem.add_dependency 'cinch'
-  gem.add_dependency 'celluloid'
+ 
+  gem.add_runtime_dependency 'celluloid'
+  gem.add_runtime_dependency 'cinch'
+  gem.add_runtime_dependency 'tinder'
 end

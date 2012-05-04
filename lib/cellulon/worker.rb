@@ -1,21 +1,22 @@
 module Cellulon
   # Workers run hooks inside of a thread pool
   class Worker
-    include Celluloid
+    include Celluloid::Worker
   
     ROOT    = File.expand_path '../../..', __FILE__
     TIMEOUT = 900
     HOOK    = /^![a-z][a-z0-9\-]*[a-z0-9]*/
       
     def handle_message(msg)
-      p msg
-      hook = msg.message[HOOK]
+      puts "[#{msg.type}] <#{msg.nickname}> #{msg.body}"
+      
+      hook = msg.body[HOOK] if msg.body
       return unless hook    
 
-      args = msg.message.split(/\s+/)
+      args = msg.body.split(/\s+/)
       args.shift # remove the hook as an argument
     
-      run hook, msg.user.nick, args do |response|
+      run hook, msg.nickname, args do |response|
         msg.reply response
       end
     end
