@@ -13,7 +13,7 @@ def halt
 end
 
 halt unless input
-key, value = input.split(/:\s*/)
+key, value = input.split(/\s+is\s+/)
 halt unless value
 
 key.strip!
