@@ -1,7 +1,7 @@
 module Cellulon
   # Workers run hooks inside of a thread pool
   class Worker
-    include Celluloid::Worker
+    include Celluloid
   
     ROOT    = File.expand_path '../../..', __FILE__
     TIMEOUT = 900
