@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Call the remote person or people by name (comma separate) or \"all\". \"list\" will show you the list of people to call. "
+
+bros = { 
+  "José Valim" => "jv.ptec",
+  "Paul" => "psadauskas",
+  "Piotr Sarnacki" => "smokomir",
+  "Peter Wagenet" => "pwagenet"
+  }
+
+unless input_string
+  puts "Tell me who to call, bro"
+  exit 0
+end
+
+# Special case: If someone passed in 'list' give them all the Skype ID's
+if input_string.eql?("list") then
+  skypeIds = bros.keys.join(", ")
+  puts skypeIds
+  exit 0
+end
+
+# Special case: If someone passed in 'all' give them all the Skype ID's
+if input_string.eql?("all") then
+  skypeIds = bros.values.join(", ")
+else
+  # Break input_string into an array  
+  names  = input_string.split(",")
+
+  # Strip off any whitespace in the names
+  stripped_names = names.map { |i| i.strip }
+
+  # Build up a result array containing the Skype ID's of any of the bros entered as input strings
+  result = bros.select {|k, v| stripped_names.include?(k)}
+
+  # Create a string that can be passed in as a param to the AppleScript
+  skypeIds = result.values.join(", ")
+end
+
+# Call the AppleScript with the Skype ID's
+ascript <<-EOD
+  tell application "Skype"
+    delay 2
+
+    set status to "COMMAND_PENDING"
+
+		repeat until status is not equal to "COMMAND_PENDING"
+		  set status to send command "GET USERSTATUS" script name "SkypeDial"
+    	delay 1
+    end repeat
+  end tell
+  tell application "Skype"
+    send command "CALL #{skypeIds}" script name "SkypeDial"
+  end tell
+EOD

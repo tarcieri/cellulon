@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Deploy the application via strobot provision"
+
+begin
+  File.stat File.expand_path("../.deploy", __FILE__)
+rescue Errno::ENOENT
+  exit 1
+end
+
+puts "Deploys need to be unfucked before we can !deploy, bro"
+exit 0
+
+unless input_string
+  puts "Tell me what to deploy, bro"
+  exit 0
+end
+
+puts "#{who} requested deploy to #{input_string}"
+
+sh "git submodule update"
+strobot_cli "provision #{input_string} --local-cookbooks"

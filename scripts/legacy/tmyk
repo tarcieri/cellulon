@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+function play(sound) {
+    console.log("strobot_play: " + sound);
+}
+
+play("tmyk");

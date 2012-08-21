@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "The 'help' hook helps you find help about things: help <hookname>"
+
+if ARGV[0]
+  script = File.expand_path("../#{ARGV[0]}", __FILE__)
+  
+  if script["strobot/hooks/"] and File.executable?(script) and not File.directory?(script)
+    puts "#{ARGV[0]} usage: #{`#{script} help`}"
+  else
+    puts "No help available for: #{ARGV[0]}"
+  end
+  
+  exit 0
+end
+
+files = Dir[File.join File.expand_path('..', __FILE__), "*"]
+hooks = files.select do |file|
+  File.executable?(file) and not File.directory?(file)
+end
+
+hooks.map! do |hook|
+  hook[/[\w\-_]+$/]
+end
+
+puts "Available hooks: #{hooks.join(', ')}"

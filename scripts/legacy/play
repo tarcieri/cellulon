@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+if ARGV[0] == 'help'
+  sounds = Dir[File.join File.expand_path('..', __FILE__), "sounds/*.mp3"].map do |file|
+    file.match(/([\w\-]+).mp3$/)[1]
+  end
+  
+  puts "plays one of the following sounds: #{sounds.join(', ')}"
+  exit 0
+end
+
+play ARGV[0]

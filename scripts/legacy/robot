@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'cgi'
+
+if ARGV[0].nil? or ARGV[0] == "help"
+  puts "Generate a unique robot avatar for a given string"
+  exit 0
+end
+
+input = ARGV[0..-1].join(' ').downcase
+if input == "bender"
+  puts "http://imgur.com/qxs61.jpg"
+else
+  string = CGI.escape(ARGV[0..-1].join(' ').downcase)
+  puts "http://static1.robohash.com/#{string}.png"
+end

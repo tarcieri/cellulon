@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+#
+# dicks v0.03 - Concise version thanks to a kind
+# redditor (ageddyn)
+#
+# Brutish way to print out a bunch of ascii dongs.
+# usage: 'dicks n' will print n dicks.  Defaults
+# to 5 dicks if no argument is called.
+#
+# Sperm patch coming soon.
+# -BTS
+
+# if you wish to make a dong from scratch
+BALLS,SHAFT,HEAD = "8","=","D"
+
+# you must first create the universe
+def dicks (n)
+  n.times do
+    puts "#{BALLS}#{SHAFT * (rand(10)+1)}#{HEAD}"
+  end
+end
+
+dicks(ARGV[0].nil? ? 5 : ARGV[0].to_i)

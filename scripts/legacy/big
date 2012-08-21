@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Make stuff big"
+
+output = safe_pipe("toilet -f standard", input_string)
+paste output

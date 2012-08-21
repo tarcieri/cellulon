@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Launch Turntable.fm in the Strobe room"
+
+ROOM = "http://turntable.fm/4e4efbf214169c5f24cc11a1"
+
+open_with_chrome ROOM
+puts ROOM

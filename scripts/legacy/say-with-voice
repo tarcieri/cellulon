@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Say something using the given voice"
+
+if ARGV.size < 2
+  puts "Give me a voice and something to say"
+else
+  say(*ARGV[1..-1], :voice => ARGV[0].gsub('_', ' '))
+end

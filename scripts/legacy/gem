@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'json'
+require 'cgi'
+require 'net/http'
+
+unless ARGV[0]
+  puts "What gem, bro?"
+  exit
+end
+
+uri  = URI.parse("http://rubygems.org/api/v1/gems/#{CGI.escape(ARGV[0])}.json")
+
+begin
+  json = JSON.parse Net::HTTP.get(uri)
+rescue JSON::ParserError
+  puts "Sorry bro, there's no '#{ARGV[1]}' gem"
+  exit 0
+end
+
+puts "#{json['name']} #{json['version']}: #{json['info']} (#{json['downloads']} downloads)"

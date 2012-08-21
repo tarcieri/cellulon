@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'rubygems'
+require 'json'
+require 'cgi'
+require 'net/http'
+require 'uri'
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Find somewhere to eat"
+
+def yelp_search(term, radius = 0.4)
+  term     = CGI.escape term
+  location = CGI.escape "875 Howard Street, San Francisco, CA"
+  ywsid    = "vY2TTTJpw1tNaFE9vVVcEA"
+
+  uri = URI.parse "http://api.yelp.com/business_review_search?term=#{term}&location=#{location}&ywsid=#{ywsid}&radius=#{radius}"
+  json = JSON.parse Net::HTTP.get uri
+
+  businesses = json['businesses'] #.sort_by { |business| 1 / business['avg_rating'] }
+  businesses.delete_if { |business| business['is_closed'] == "True" }
+  businesses
+end
+
+def print_business(business)
+  name = business['name']
+  url  = business['url']
+  stars = business['avg_rating'].round
+  distance = sprintf("%0.2f", business['distance'])
+  categories = business['categories'].map { |category| category['name'] }
+  review = business['reviews'].sort_by { |rev| rev['rating'] }.first['text_excerpt']
+  review.gsub!(/\s+/, ' ')
+  review = review[0..99] << "..." if review.size > 100
+
+  puts "#{name} [#{"★" * stars}] (#{distance} mi): #{categories.join(", ")} \"#{review}\" #{url}"
+end
+
+if input_string
+  businesses = yelp_search input_string
+  businesses[0..3].each { |business| print_business business }
+else
+  categories = %w(
+    lunch mexican italian japanese vietnamese 
+    thai korean chinese american sandwiches burgers
+  )
+  
+  category = categories[rand(categories.size)]
+  businesses = yelp_search category, 0.4
+  business = businesses[rand(businesses.size)]
+  
+  print_business business
+end

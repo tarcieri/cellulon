@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require "net/http"
+require "uri"
+require "cgi"
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Build the given Jenkins project"
+
+project = ARGV.first
+
+unless project
+  puts "Tell me a project to build, bro"
+  exit 1
+end
+
+uri = URI.parse("http://ci.engineering.strobecorp.com/job/#{CGI.escape(project)}/build?delay=0sec")
+
+http = Net::HTTP.new(uri.host, uri.port)
+request = Net::HTTP::Get.new(uri.request_uri)
+request.basic_auth('strobot', 'str0b4wtru3lz')
+response = http.request(request)
+
+case response
+when Net::HTTPFound
+  puts "Started Jenkins build for project: #{project}"
+else
+  puts "No such Jenkins project, bro: #{project}"
+end

@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Pulls latest changes to Strobot from git"
+
+result, _ = Open3.capture2e("git pull")
+result.gsub!(/\033\[.*?m/, '')
+puts "strobot_paste: #{result.dump}"

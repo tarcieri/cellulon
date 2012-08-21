@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+try {
+  var result = eval(process.argv[2]);
+  if (typeof result === "string") { result = "\\\"" + JSON.stringify(result).slice(1,-1) + "\\\""; }
+  else { result = JSON.stringify(result); }
+
+  console.log('strobot_paste: "' + result +'"');
+} catch(e) {
+  console.log('strobot_paste: ' + JSON.stringify(e.stack));
+}
+

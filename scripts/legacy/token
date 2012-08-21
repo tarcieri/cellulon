@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+require 'yaml'
+require 'fileutils'
+
+usage "Request a Strobe invitation token. Pass a number from 1-10 to get more."
+
+tokens_yaml = File.expand_path("../../tokens.yml", __FILE__)
+tokens_swap = File.expand_path("../../.tokens.swap", __FILE__)
+tokens_lock = File.expand_path("../../.tokens.lock", __FILE__)
+
+unless File.exist? tokens_yaml
+  puts "I don't have any tokens. Sorry bro"
+  exit
+end
+
+
+# Trying to run two at once appears to be possible
+# and problematic. If this isn't necessary it can be
+# removed.
+if File.exist? tokens_lock
+  puts "Wait your turn, bro."
+  exit
+end
+
+FileUtils.touch(tokens_lock)
+
+begin
+  num = ARGV[0].to_i
+  num = 1 if num < 1
+  if num > 10
+    puts "Y u want so many? Only give 10!"
+    num = 10
+  end
+
+  token_list = []
+  # This could be optimized, but I don't feel like figuring it out
+  num.times do
+    File.open(tokens_yaml, "r") do |file|
+      file.flock(File::LOCK_EX)
+
+      file.seek 0
+      tokens = YAML.load(file.read)
+      token = tokens.find { |k, v| v }
+      token = token[0] if token
+
+      token_list << "https://home.strobeapp.com/#sign_up/#{token}" if token
+      tokens[token] = false
+
+      File.open(tokens_swap, "w") { |swap| swap << tokens.to_yaml }
+      FileUtils.mv tokens_swap, tokens_yaml
+    end
+  end
+
+  if token_list.size == 1
+    puts "#{called_by}: #{token_list[0]}"
+  else
+    puts "#{called_by}: #{num} Tokens coming right up"
+    paste token_list.join("\n")
+  end
+
+  if token_list.size != num
+    puts "Sorry bro, we ran out of tokens"
+  end
+ensure
+  FileUtils.rm(tokens_lock)
+end

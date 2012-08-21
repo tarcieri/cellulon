@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+require 'rubygems'
+require 'open-uri'
+require 'nokogiri'
+
+doc = Nokogiri::HTML(open("http://www.fmylife.com/random") { |http| http.read })
+
+post = doc.xpath("//div[@class='post article']").first
+text = post.xpath("p/a[@class='fmllink']").map { |link| link.text }.join
+
+if ARGV[0] == 'outloud'
+  say text
+else
+  puts text
+end

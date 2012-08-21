@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+`ifconfig en1`[/inet ((\d+\.){3}(\d+))/]
+puts $1

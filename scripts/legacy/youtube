@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "open YouTube URL or ID in fullscreen on the TV"
+
+youtube_id = "[\\w+\\-_]{10,12}"
+
+case input_string
+when /youtube.com\/watch\?v=(#{youtube_id})/
+  video_id = $1
+when /youtube.com\/embed\/(#{youtube_id})/
+  video_id = $1
+when /^(#{youtube_id})$/
+  video_id = $1
+else
+  puts "Don't think this is a YouTube video, bro: #{input_string}"
+  exit 1
+end
+
+url = "http://www.youtube.com/embed/#{video_id}?autoplay=1"
+open_with_chrome url
+
+# For viewing in Campfire
+puts "http://www.youtube.com/watch?v=#{video_id}"

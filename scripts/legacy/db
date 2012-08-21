@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+db do |database|
+  if ARGV[1]
+    database[ARGV[0]] = ARGV[1]
+    puts "Set #{ARGV[0]} = #{ARGV[1]}"
+  else
+    puts "#{ARGV[0]} is #{database[ARGV[0]]}"
+  end
+end
+

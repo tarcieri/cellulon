@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'open-uri'
+require 'json'
+
+hash = JSON.parse(open('http://www.reddit.com/r/aww.json').read)
+require 'pp'
+
+data = hash['data']['children']
+data = data.select { |d| d['kind'] == 't3' }
+data = data.map { |d| d['data'] }
+data = data.select { |d| d['domain'] == 'i.imgur.com' }
+
+random = data[rand(data.length)]
+
+puts random['url']

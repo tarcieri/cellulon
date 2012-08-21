@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+$:.push File.expand_path("../lib", __FILE__)
+require 'helpers'
+
+usage "Deploy the application via strobot provision"
+
+#abort "Dude, I'm busy" if File.exists? File.expand_path("../.deploy", __FILE__)
+abort "Tell me what to do, bro" unless input_string
+
+WHITELIST_COMMANDS = %w[list add remove provision]
+subcommand = input_string.split.first
+
+abort "I only support #{WHITELIST_COMMANDS.join(", ")}" unless WHITELIST_COMMANDS.include? subcommand
+
+_ = sh "git submodule update"
+strobot_cli input_string
