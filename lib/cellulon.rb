@@ -1,25 +1,20 @@
 require 'cinch'
 require 'tinder'
 require 'celluloid'
-require 'cellulon/version'
 
-require 'cellulon/campfire_message'
+require 'cellulon/version'
 require 'cellulon/worker'
+
+require 'cellulon/campfire/client'
+require 'cellulon/campfire/message'
 
 module Cellulon
   # Start the bot
   def self.run
-    worker_pool = Cellulon::Worker.pool
+    Celluloid::Actor[:cellulon_pool] = Cellulon::Worker.pool
 
-    campfire = Tinder::Campfire.new 'hungrymachine', :token => ENV['CAMPFIRE_TOKEN']
-    room = campfire.find_room_by_name('Off Topic')
-    room.listen do |event|
-      type = event['type'].scan(/[A-Z][a-z0-9]+/).map(&:downcase).join('_').to_sym
-      nick = event['user'] ? event['user']['name'].force_encoding('UTF-8') : nil
-      body = event['body'].force_encoding('UTF-8') if event['body']
-
-      worker_pool << CampfireMessage.new(room, type, nick, body)
-    end 
+    client = Campfire::Client.new('hungrymachine', :token => ENV['CAMPFIRE_TOKEN'])
+    client.join('Test')
     
     # TODO: configuration for IRC vs Campfire
     # bot = Cinch::Bot.new do
