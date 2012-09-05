@@ -8,7 +8,7 @@ module Cellulon
     HOOK    = /^![a-z][a-z0-9\-]*[a-z0-9]*/
       
     def handle_message(msg)
-      puts "[#{msg.type}] <#{msg.nickname}> #{msg.body}"
+      puts "[#{msg.type}]#{" <" + msg.nickname + ">" if msg.nickname} #{msg.body}"
       
       hook = msg.body[HOOK] if msg.body
       return unless hook    
