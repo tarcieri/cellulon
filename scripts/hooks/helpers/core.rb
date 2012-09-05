@@ -13,10 +13,11 @@ module Helpers
     end
     
     # Obtain all arguments as a single string
-    def input
+    def input_string
       return nil unless ARGV[0]
       @input ||= ARGV[0..-1].join(' ')
     end
+    alias_method :input, :input_string
     
     # Who was this script called by?
     def called_by

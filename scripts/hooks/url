@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+require 'helpers/mac'
+
+usage "open a URL in Chrome"
+
+open_with_chrome input_string
