@@ -1,3 +1,5 @@
+require 'open3'
+
 module Cellulon
   # Workers run hooks inside of a thread pool
   class Worker
