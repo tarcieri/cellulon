@@ -14,7 +14,7 @@ module Cellulon
     Celluloid::Actor[:cellulon_pool] = Cellulon::Worker.pool
 
     client = Campfire::Client.new('hungrymachine', :token => ENV['CAMPFIRE_TOKEN'])
-    client.join('Test')
+    client.join(ENV['CHANNEL'])
     
     # TODO: configuration for IRC vs Campfire
     # bot = Cinch::Bot.new do
