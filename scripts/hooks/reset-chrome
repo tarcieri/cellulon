@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+URL = "http://www.google.com"
+
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+require 'helpers/mac'
+
+usage "Reset Chrome. Pass 'url' to get the url. Pass 'free' to show the free url with ads."
+
+chrome_ps = `ps x`.split("\n").find { |ps| ps[/Google Chrome/] }
+if chrome_ps
+  chrome_pid = Integer(chrome_ps[/^\s*\d+/])
+  Process.kill 15, chrome_pid rescue nil
+end
+
+# Give Chrome time to shut down
+sleep 1
+
+ascript <<-EOD
+  tell application "Google Chrome"
+    set URL of active tab of window 1 to "#{URL}"
+    delay 0.5
+    activate
+    tell application "System Events"
+      key down {command}
+      key down {shift}
+      keystroke "f"
+      key up {shift}
+      key up {command}
+    end tell
+  end tell
+EOD

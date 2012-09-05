@@ -23,6 +23,15 @@ module Helpers
       ENV['CALLED_BY']
     end
     alias_method :who, :called_by
+    
+    def lock(name)
+      dir = File.expand_path('../../../../tmp', __FILE__)
+
+      File.open(File.join(dir, name.to_s), "w") do |file|
+        file.flock(File::LOCK_EX)
+        yield
+      end
+    end
   end
 end
 
