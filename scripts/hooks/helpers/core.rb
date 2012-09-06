@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'open3'
+
 module Helpers
   HOOK_PATTERN = /^[a-z][a-z0-9\-]*[a-z0-9]*$/
   
