@@ -32,6 +32,22 @@ module Helpers
         end tell
       EOD
     end
+    
+    # Say something on the teeve
+    def say(*text)
+      opts = text[-1].is_a?(Hash) ? text.pop : {}
+
+      cmd = "say"
+      if opts[:voice]
+        if opts[:voice] =~ /[^\w ]/
+          puts "Screw you hacker!"
+          exit
+        end
+        cmd << " -v \"#{opts[:voice]}\""
+      end
+
+      lock(:say) { pipe_to_cmd text.join(' '), cmd }
+    end
   end
 end
 

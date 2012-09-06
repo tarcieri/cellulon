@@ -33,6 +33,14 @@ module Helpers
         yield
       end
     end
+    
+    def pipe_to_cmd(input, *cmd)
+      Open3.popen2(*cmd) do |stdin, stdout|
+        stdin << input
+        stdin.close
+        stdout.read
+      end
+    end
   end
 end
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
 
-URL = "http://www.google.com"
-
 $:.push File.dirname(__FILE__)
 require 'helpers/core'
 require 'helpers/mac'
 
 usage "Reset Chrome. Pass 'url' to get the url. Pass 'free' to show the free url with ads."
+
+# Change to the default URL of your choice
+URL = "http://www.google.com"
 
 chrome_ps = `ps x`.split("\n").find { |ps| ps[/Google Chrome/] }
 if chrome_ps
