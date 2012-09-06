@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << File.expand_path("../lib", __FILE__)
-require 'helpers'
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+require 'helpers/mac'
 
 usage "open YouTube URL or ID in fullscreen on the TV"
 
