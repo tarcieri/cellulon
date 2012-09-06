@@ -33,9 +33,14 @@ module Helpers
     end
     
     # Execute a command and dump its results to the channel
-    def sh(command, strip=true)
+    def sh(command, strip = true)
       result, _ = Open3.capture2e(command)
-      result.strip! if strip
+      
+      if strip
+        result.gsub!(/\033\[.*?m/, '')
+        result.strip!
+      end
+      
       paste result
     end
     
