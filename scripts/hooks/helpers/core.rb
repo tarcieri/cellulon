@@ -32,6 +32,14 @@ module Helpers
       puts "###paste: #{string.dump}"
     end
     
+    # Execute a command and dump its results to the channel
+    def sh(command, strip=true)
+      result, _ = Open3.capture2e(command)
+      result.strip! if strip
+      paste result
+    end
+    
+    # Obtain an exclusive cross-hook clock
     def lock(name)
       dir = File.expand_path('../../../../tmp', __FILE__)
 
@@ -41,6 +49,7 @@ module Helpers
       end
     end
     
+    # Pipe a buffer to the given command
     def pipe_to_cmd(input, *cmd)
       Open3.popen2(*cmd) do |stdin, stdout|
         stdin << input
