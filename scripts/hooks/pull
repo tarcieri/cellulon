@@ -1,3 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env ruby
 
-git pull
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
+
+usage "Pull the latest changes from git"
+
+result, _ = Open3.capture2e("git pull")
+result.gsub!(/\033\[.*?m/, '')
+paste result

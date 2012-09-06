@@ -10,6 +10,10 @@ module Cellulon
       def reply(message)
         @room.speak message
       end
+      
+      def paste(message)
+        @room.paste message
+      end
     end
   end
 end

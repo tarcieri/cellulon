@@ -25,6 +25,11 @@ module Helpers
     end
     alias_method :who, :called_by
     
+    # Paste a string into the channel
+    def paste(string)
+      puts "###paste: #{string.dump}"
+    end
+    
     def lock(name)
       dir = File.expand_path('../../../../tmp', __FILE__)
 

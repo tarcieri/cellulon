@@ -1,4 +1,5 @@
 require 'open3'
+require 'json'
 
 module Cellulon
   # Workers run hooks inside of a thread pool
@@ -19,7 +20,18 @@ module Cellulon
       args.shift # remove the hook as an argument
     
       run hook, msg.nickname, args do |response|
-        msg.reply response
+        case response
+        when /^###paste:\s*(.*)$/
+          # Hax to parse escaped strings
+          unescaped_message = JSON.parse("[#{$1}]").first rescue nil
+          if unescaped_message
+            msg.paste unescaped_message 
+          else
+            msg.reply "Couldn't parse paste: #{response}"
+          end
+        else
+          msg.reply response
+        end
       end
     end
   
