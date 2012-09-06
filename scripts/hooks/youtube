@@ -13,6 +13,8 @@ when /youtube.com\/watch\?v=(#{youtube_id})/
   video_id = $1
 when /youtube.com\/embed\/(#{youtube_id})/
   video_id = $1
+when /youtu.be\/(#{youtube_id})/
+  video_id = $1
 when /^(#{youtube_id})$/
   video_id = $1
 else
