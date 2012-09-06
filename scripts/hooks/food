@@ -7,14 +7,14 @@ require 'cgi'
 require 'net/http'
 require 'uri'
 
-$:.push File.expand_path("../lib", __FILE__)
-require 'helpers'
+$:.push File.dirname(__FILE__)
+require 'helpers/core'
 
 usage "Find somewhere to eat"
 
 def yelp_search(term, radius = 0.4)
   term     = CGI.escape term
-  location = CGI.escape "875 Howard Street, San Francisco, CA"
+  location = CGI.escape "420 Bryant Street, San Francisco, CA"
   ywsid    = "vY2TTTJpw1tNaFE9vVVcEA"
 
   uri = URI.parse "http://api.yelp.com/business_review_search?term=#{term}&location=#{location}&ywsid=#{ywsid}&radius=#{radius}"
@@ -43,7 +43,7 @@ if input_string
   businesses[0..3].each { |business| print_business business }
 else
   categories = %w(
-    lunch mexican italian japanese vietnamese 
+    lunch mexican italian japanese vietnamese
     thai korean chinese american sandwiches burgers
   )
   
