@@ -22,8 +22,7 @@ else
   exit 1
 end
 
-url = "http://www.youtube.com/embed/#{video_id}?autoplay=1"
-open_with_chrome url
+open_in_browser "http://www.youtube.com/embed/#{video_id}?autoplay=1"
 
 # For viewing in Campfire
 puts "http://www.youtube.com/watch?v=#{video_id}"

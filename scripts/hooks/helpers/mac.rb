@@ -18,13 +18,9 @@ module Helpers
     alias_method :ascript, :run_applescript
     
     # Open the given URL with Chrome on the TV
-    def open_with_chrome(url)
+    def open_in_browser(url)
       uri = URI.parse(url)
-  
-      unless uri.is_a? URI::HTTP
-        puts "What kind of a fucking URL is this crap? #{url}"
-        exit 1
-      end
+      uri = URI.parse("http://#{url}") unless uri.is_a? URI::HTTP
 
       ascript <<-EOD
         tell application "Google Chrome"

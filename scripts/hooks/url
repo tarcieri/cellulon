@@ -4,6 +4,6 @@ $:.push File.dirname(__FILE__)
 require 'helpers/core'
 require 'helpers/mac'
 
-usage "open a URL in Chrome"
+usage "open a URL in a web browser"
 
-open_with_chrome input_string
+open_in_browser input_string
