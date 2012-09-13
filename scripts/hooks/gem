@@ -7,7 +7,7 @@ require 'json'
 $:.push File.dirname(__FILE__)
 require 'helpers/core'
 
-usage "Obtain information about RubyGems"
+usage "Obtain information about RubyGems: !gem <name>"
 
 unless ARGV[0]
   puts "What gem, bro?"
